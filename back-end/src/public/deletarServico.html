@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deletar Serviço</title>
+    <link rel="shortcut icon" href="tripwise1.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #dc3545;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #a71d2a;
+        }
+
+        .back-btn {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Deletar Serviço</h1>
+        <form id="deletarServicoForm">
+            <label for="id_servico">ID do Serviço</label>
+            <input type="text" id="id_servico" name="id_servico" placeholder="Digite o ID do serviço" required>
+            <button type="submit" class="btn">Deletar</button>
+        </form>
+        <a href="/admin" class="back-btn">Voltar à Página Inicial</a>
+    </div>
+
+    <script>
+        // Script para enviar o ID do serviço para deletar
+        document.getElementById('deletarServicoForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Previne o reload da página
+
+            const id_servico = document.getElementById('id_servico').value;
+
+            try {
+                // Faz a requisição para a rota de deletar
+                const response = await fetch(`http://localhost:4000/deletarServico/${id_servico}`, {
+                    method: 'DELETE',
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(data.message || 'Serviço deletado com sucesso!');
+                    document.getElementById('deletarServicoForm').reset(); // Reseta o formulário
+                } else {
+                    alert(data.error || 'Erro ao deletar o serviço.');
+                }
+            } catch (error) {
+                console.error('Erro ao deletar serviço:', error);
+                alert('Erro de conexão. Tente novamente.');
+            }
+        });
+    </script>
+</body>
+</html>

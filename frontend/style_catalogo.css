@@ -1,0 +1,52 @@
+body {
+    background-color: #f7f3eb; /* Tom neutro */
+    font-family: Arial, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #4b3f29 !important;
+  }
+  
+  .navbar .nav-link {
+    color: #4b3f29 !important;
+    transition: color 0.3s;
+  }
+  
+  .navbar .nav-link:hover {
+    color: #2a251b;
+  }
+
+.card {
+    border: none;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.footer {
+    background-color: #1a3c6b;
+    color: #ffffff;
+    padding: 40px 0;
+}
+
+.footer-section h2 {
+    font-size: 1.2em;
+    color: #ff6b35;
+}
+
+.footer-section p, .footer-section a {
+    font-size: 0.9em;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer-bottom {
+    background-color: #142a4d;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.8em;
+}

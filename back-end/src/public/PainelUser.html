@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle de Clientes</title>
+    <link rel="shortcut icon" href="tripwise1.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #a71d2a;
+        }
+
+        .back-btn {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Painel de Controle de Clientes</h1>
+        <button class="btn" onclick="listarClientes()">Listar Clientes Cadastrados</button>
+        <button class="btn btn-danger" onclick="removerCliente()">Remover Cliente</button>
+        <a href="/admin" class="back-btn">Voltar à Página Inicial</a>
+    </div>
+
+    <script>
+        // Função para listar clientes
+        async function listarClientes() {
+            try {
+                const response = await fetch('http://localhost:4000/listarClientes');
+                const clientes = await response.json();
+
+                if (response.ok) {
+                    let output = 'Clientes Cadastrados:\n\n';
+                    clientes.forEach(cliente => {
+                        output += `ID: ${cliente.id_cliente}\nNome: ${cliente.nome}\nEmail: ${cliente.email}\n\n`;
+                    });
+                    alert(output);
+                } else {
+                    alert(clientes.error || 'Erro ao listar clientes.');
+                }
+            } catch (error) {
+                console.error('Erro ao listar clientes:', error);
+                alert('Erro de conexão. Tente novamente.');
+            }
+        }
+
+        // Função para remover cliente
+        async function removerCliente() {
+            const id_cliente = prompt('Digite o ID do cliente que deseja remover:');
+
+            if (!id_cliente) {
+                alert('ID do cliente é obrigatório.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:4000/deletarCliente/${id_cliente}`, {
+                    method: 'DELETE',
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(data.message || 'Cliente removido com sucesso!');
+                } else {
+                    alert(data.error || 'Erro ao remover cliente.');
+                }
+            } catch (error) {
+                console.error('Erro ao remover cliente:', error);
+                alert('Erro de conexão. Tente novamente.');
+            }
+        }
+    </script>
+</body>
+</html>
